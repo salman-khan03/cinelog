@@ -6,8 +6,12 @@ Tests for the watchlist service, following the patterns in test_collection.py.
 
 import pytest
 from app import create_app, db
-from models import User, Film
-from services.watchlist_service import add_to_watchlist
+from models import User, Film, WatchlistEntry
+from services.watchlist_service import (
+    add_to_watchlist,
+    remove_from_watchlist,
+    NotOnWatchlistError,
+)
 from services.collection_service import FilmNotFoundError
 
 
@@ -57,3 +61,23 @@ def test_add_to_watchlist_nonexistent_film_raises(app, sample_user):
 
         with pytest.raises(FilmNotFoundError):
             add_to_watchlist(user_id=sample_user, film_id=fake_film_id)
+
+
+# ── Remove ───────────────────────────────────────────────────────────────────
+
+def test_remove_from_watchlist_deletes_entry(app, sample_user, sample_film):
+    """
+    Removing a film that's on the watchlist should delete the entry;
+    removing one that isn't should raise NotOnWatchlistError.
+    """
+    with app.app_context():
+        add_to_watchlist(user_id=sample_user, film_id=sample_film)
+
+        assert remove_from_watchlist(user_id=sample_user, film_id=sample_film) is True
+        remaining = WatchlistEntry.query.filter_by(
+            user_id=sample_user, film_id=sample_film
+        ).count()
+        assert remaining == 0
+
+        with pytest.raises(NotOnWatchlistError):
+            remove_from_watchlist(user_id=sample_user, film_id=sample_film)
