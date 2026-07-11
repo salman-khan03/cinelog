@@ -78,6 +78,7 @@ class WatchlistEntry(db.Model):
     id = db.Column(db.String(36), primary_key=True, default=generate_uuid)
     user_id = db.Column(db.String(36), db.ForeignKey("user.id"), nullable=False)
     film_id = db.Column(db.String(36), db.ForeignKey("film.id"), nullable=False)
+    film = db.relationship("Film", backref="watchlist_entries", lazy=True)
     date_added = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
     public = db.Column(db.Boolean, default=True)
 
