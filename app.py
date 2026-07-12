@@ -7,10 +7,23 @@ import os
 db = SQLAlchemy()
 
 
+def _default_database_uri():
+    """
+    Pick a writable SQLite path.
+
+    On read-only serverless filesystems (e.g. Vercel) the project directory
+    can't be written, so fall back to the always-writable /tmp directory.
+    A DATABASE_URL env var overrides this entirely.
+    """
+    if os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+        return "sqlite:////tmp/cinelog.db"
+    return "sqlite:///cinelog.db"
+
+
 def create_app(config=None):
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", "sqlite:///cinelog.db"
+        "DATABASE_URL", _default_database_uri()
     )
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-secret-key")
