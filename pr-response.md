@@ -85,19 +85,26 @@ The service layer (`services/watchlist_service.py`) provides `add_to_watchlist()
 
 ## Commit History
 
+`git log --oneline` on `feature/watchlist` (newest first) — 14 linear commits, all
+conventional format, **no merge commits**:
+
 ```
-fix: add film relationship to WatchlistEntry so get_watchlist can serialize films
-docs: add pr-response.md with visibility and sort order decisions
-test: add duplicate-entry test for add_to_watchlist
-feat: add public visibility parameter to add_to_watchlist endpoint
-feat: add remove_from_watchlist following collection service pattern
-fix: update WatchlistEntry film_id to UUID after main branch refactor
-fix: sort watchlist by date added to match collection convention
-test: add test for nonexistent film_id in add_to_watchlist
-fix: add deduplication check to prevent duplicate watchlist entries
-fix: rename save_to_watchlist to add_to_watchlist per naming convention
-feat: add watchlist model and endpoints
-fix: update film retrieval method to use db.session.get in collection and watchlist services
+518670a chore: add Vercel serverless config and writable DB path
+989095b fix: expose module-level app instance for WSGI entrypoint
+1620188 fix: add film relationship to WatchlistEntry so get_watchlist can serialize films
+f55dd21 docs: add pr-response.md with visibility and sort order decisions
+d7efce2 test: add duplicate-entry test for add_to_watchlist
+9400b57 feat: add public visibility parameter to add_to_watchlist endpoint
+56c0849 feat: add remove_from_watchlist following collection service pattern
+4fd42a9 fix: update WatchlistEntry film_id to UUID after main branch refactor
+ac2f8fa fix: sort watchlist by date added to match collection convention
+3b56eb6 test: add test for nonexistent film_id in add_to_watchlist
+b3e0251 fix: add deduplication check to prevent duplicate watchlist entries
+649be82 fix: rename save_to_watchlist to add_to_watchlist per naming convention
+b470780 fix: update film retrieval method to use db.session.get in collection and watchlist services
+e685d34 feat: add watchlist model and endpoints
 ```
 
-*(Insert your `git log --oneline` screenshot here before submitting.)*
+> **Screenshot:** Run `git log --oneline` on your `feature/watchlist` branch and
+> paste the screenshot image directly below this line before submitting. The text
+> block above mirrors that output exactly.
