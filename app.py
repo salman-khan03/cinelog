@@ -34,6 +34,11 @@ def create_app(config=None):
     return app
 
 
+# Module-level WSGI entrypoint. Deployment servers (gunicorn, etc.) and tools
+# that look for a top-level "app" import this; the factory stays available for
+# tests, which build isolated app instances via create_app(config=...).
+app = create_app()
+
+
 if __name__ == "__main__":
-    app = create_app()
     app.run(debug=True)
